@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/humidity.css">
+    <title>EMBEDDED</title>
+</head>
+    <body>        
+        <div class="main">
+            <nav>
+                <h1>Kelompok 6</h1>
+            </nav>
+
+            <main>
+                <div class="box">
+                    
+                    <img src="assets/images/suhu.jpg">   
+                </div>
+
+                <div class="box">
+                    <ul>
+                        <li>
+                            <h2>Kelembapan</h2>
+                            <h3 id="kelembapan">Memuat...</h3>
+                        </li>
+
+                        <li>
+                            <h2>Suhu</h2>
+                            <h3 id="suhu">Memuat...</h3>
+                        </li>
+                    </ul>                 
+                </div>
+
+                
+            </main>
+
+            <footer>
+                <div class="konten">
+                    <ul>
+                        <li>
+                            <a href="index.html">
+                                <img src="assets/images/icons8-water-64.png" alt="">
+                                <p>Pompa Air</p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="alarm.html">
+                                <img src="assets/images/icons8-fire-96.png" alt="">
+                                <p>Alaram</p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="humidity.html">
+                                <img src="assets/images/icons8-temperature-96.png" alt="">
+                                <p>Suhu</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </body>
+
+    <!--Firebase Libraries-->
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script> 
+
+  <script id="MainScript">
+    var firebaseConfig = {
+        apiKey: "AIzaSyAKJ0xx-9iGn342aYbRCpZCvEyBelOhNN0",
+        authDomain: "iot-project-33688.firebaseapp.com",
+        databaseURL: "https://iot-project-33688-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "iot-project-33688",
+        storageBucket: "iot-project-33688.appspot.com",
+        messagingSenderId: "460227880703",
+        appId: "1:460227880703:web:6a77276ccbc38107a3ceca",
+        measurementId: "G-3HJ3PT6DZ6"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    //----------------------------------------------------
+    //READ DATA
+    //----------------------------------------------------
+    function loadData(){
+      firebase.database().ref('Kontrol_Suhu').on('value',function(snapshot){
+        data = snapshot.val().Humidity;
+        document.getElementById('kelembapan').innerHTML = snapshot.val().Humidity + " %";
+        document.getElementById('suhu').innerHTML = snapshot.val().Temperature + " &degC";
+        console.log(data);
+      });
+    }
+
+
+    window.onload = (event) => {
+        loadData()
+    };
+
+  </script>
+</html>

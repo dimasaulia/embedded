@@ -1,0 +1,13 @@
+.box:first-child{
+    height: 10rem;
+    overflow: hidden;   
+    padding: 0; 
+    display: flex;
+    justify-content : center;
+    align-items : center;
+}
+
+.box:first-child img{
+    display: block;
+    margin: 0 auto;
+}

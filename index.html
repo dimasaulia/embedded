@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/main.css">
+    <title>EMBEDDED</title>
+</head>
+    <body>        
+        <div class="main">
+            <nav>
+                <h1>Kelompok 6</h1>
+            </nav>
+
+            <main>
+                <div class="box">
+                    <ul>
+                        <li>
+                            <h2>Status</h2>
+                            <h3 id="status">Memuat...</h3>
+                        </li>
+
+                        <li>
+                            <h2>Ketinggian</h2>
+                            <h3 id="ketinggian">Memuat...</h3>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h2>Kontrol Otomatis</h2>
+                    <br><br>
+
+                    <form action="">
+                        <label for="batasMinimum">Batas Minimal Air Agar Pompa Otomatis Menyala</label>
+                        <input type="number" class="form-control" id="batasMinimum" placeholder="Dalam Centimeter">
+
+                        <label for="batasMaksimum">Batas Maximum Air Agar Pompa Otomatis Mati</label>
+                        <input type="number" class="form-control" id="batasMaksimum" placeholder="Dalam Centimeter">
+                        
+                        <br>
+                        <hr>
+                        <br>
+                        <a href="#" id="atur-pompa" class="btn">Atur!</a>
+                    </form>
+                    
+                </div>
+                <a href="manual.html" style="color: darkblue;">Atur Manual ➡</a>
+                
+            </main>
+
+            <footer>
+                <div class="konten">
+                    <ul>
+                        <li>
+                            <a href="index.html">
+                                <img src="assets/images/icons8-water-64.png" alt="">
+                                <p>Pompa Air</p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="alarm.html">
+                                <img src="assets/images/icons8-fire-96.png" alt="">
+                                <p>Alaram</p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="humidity.html">
+                                <img src="assets/images/icons8-temperature-96.png" alt="">
+                                <p>Suhu</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </body>
+
+    <!--Firebase Libraries-->
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-database.js"></script> 
+
+  <script id="MainScript">
+    var firebaseConfig = {
+        apiKey: "AIzaSyAKJ0xx-9iGn342aYbRCpZCvEyBelOhNN0",
+        authDomain: "iot-project-33688.firebaseapp.com",
+        databaseURL: "https://iot-project-33688-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "iot-project-33688",
+        storageBucket: "iot-project-33688.appspot.com",
+        messagingSenderId: "460227880703",
+        appId: "1:460227880703:web:6a77276ccbc38107a3ceca",
+        measurementId: "G-3HJ3PT6DZ6"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    //----------------------------------------------------
+    //READ DATA
+    //----------------------------------------------------
+    function loadData(){
+      firebase.database().ref('Pompa_Air').on('value',function(snapshot){
+        data = snapshot.val().batasMinimum;
+        document.getElementById('batasMinimum').value = snapshot.val().batasMinimum;
+        document.getElementById('batasMaksimum').value = snapshot.val().batasPenuh;
+        document.getElementById('status').innerHTML = "Pompa " + snapshot.val().Status;
+        document.getElementById('ketinggian').innerHTML = snapshot.val().ketinggianAir + " Cm";
+        console.log(data);
+      });
+    }
+
+    // SET DATA
+    document.getElementById('atur-pompa').onclick = function(){
+        firebase.database().ref('Pompa_Air').update({
+            batasMinimum : parseInt(document.getElementById("batasMinimum").value),
+            batasPenuh : parseInt(document.getElementById("batasMaksimum").value),
+        });
+    } 
+
+
+    window.onload = (event) => {
+        loadData()
+    };
+
+  </script>
+</html>
